@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { FaLaptopCode, FaRobot, FaPaintBrush, FaChartLine, FaLock, FaDatabase, FaTools } from "react-icons/fa";
 
 export default function Services() {
@@ -49,12 +49,12 @@ export default function Services() {
   ];
 
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     offscreen: { opacity: 0, y: 50 },
     onscreen: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", bounce: 0.3, duration: 0.6 }
+      transition: { type: "spring" as const, bounce: 0.3, duration: 0.6 }
     }
   };
 
