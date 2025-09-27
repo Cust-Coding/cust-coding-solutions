@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { RiMenu3Fill, RiCloseLine } from "react-icons/ri";
 
-const Nav = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("inicio");
+interface LinkItem {
+  name: string;
+  path: string;
+}
 
-  const link = [
+const Nav = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState<string>("inicio");
+
+  const links: LinkItem[] = [
     { name: "Inicio", path: "#home" },
     { name: "Servicos", path: "#servicos" },
     { name: "Sobre", path: "#sobre" },
@@ -16,40 +20,42 @@ const Nav = () => {
   ];
 
   useEffect(() => {
-  const handleScroll = () => {
-    const scrollPos = window.scrollY + 200; // offset para topo
-    let current = "inicio";
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 200;
+      let current = "inicio";
 
-    link.forEach(({ path }) => {
-      const section = document.querySelector(path);
-      // Checagem segura para HTMLElement
-      if (section instanceof HTMLElement && section.offsetTop <= scrollPos) {
-        current = path.replace("#", "");
-      }
-    });
+      links.forEach(({ path }) => {
+        const section = document.querySelector<HTMLElement>(path);
+        if (section && section.offsetTop <= scrollPos) {
+          current = path.replace("#", "");
+        }
+      });
 
-    setActiveSection(current);
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    path: string
+  ) => {
+    e.preventDefault();
+    const section = document.querySelector<HTMLElement>(path);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false);
   };
-
-  window.addEventListener("scroll", handleScroll);
-  handleScroll(); // checa no carregamento
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-  e.preventDefault();
-  const section = document.querySelector(path);
-  if (section instanceof HTMLElement) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-  setIsOpen(false);
-};
 
   return (
     <>
       {/* Desktop Menu */}
       <nav className="flex items-center justify-center gap-2 lg:gap-5 max-sm:hidden">
-        {link.map((linkItem, index) => (
+        {links.map((linkItem, index) => (
           <a
             key={index}
             href={linkItem.path}
@@ -81,7 +87,7 @@ const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
           isOpen ? "max-h-96 py-4" : "max-h-0"
         }`}
       >
-        {link.map((linkItem, index) => (
+        {links.map((linkItem, index) => (
           <a
             key={index}
             href={linkItem.path}
