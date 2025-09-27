@@ -15,35 +15,35 @@ const Nav = () => {
     { name: "Contato", path: "#contato" },
   ];
 
-  // Detecta a seção ativa baseado no scroll
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 200; // offset para topo
-      let current = "inicio";
+  const handleScroll = () => {
+    const scrollPos = window.scrollY + 200; // offset para topo
+    let current = "inicio";
 
-      link.forEach(({ path }) => {
-        const section = document.querySelector(path);
-        if (section && section.offsetTop <= scrollPos) {
-          current = path.replace("#", "");
-        }
-      });
+    link.forEach(({ path }) => {
+      const section = document.querySelector(path);
+      // Checagem segura para HTMLElement
+      if (section instanceof HTMLElement && section.offsetTop <= scrollPos) {
+        current = path.replace("#", "");
+      }
+    });
 
-      setActiveSection(current);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // checa no carregamento
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleClick = (e, path) => {
-    e.preventDefault();
-    const section = document.querySelector(path);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsOpen(false);
+    setActiveSection(current);
   };
+
+  window.addEventListener("scroll", handleScroll);
+  handleScroll(); // checa no carregamento
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+  e.preventDefault();
+  const section = document.querySelector(path);
+  if (section instanceof HTMLElement) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+  setIsOpen(false);
+};
 
   return (
     <>
