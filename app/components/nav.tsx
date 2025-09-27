@@ -25,10 +25,9 @@ const Nav = () => {
       let current = "inicio";
 
       links.forEach((linkItem) => {
-        const path = linkItem.path;
-        const section = document.querySelector(path);
-        if (section instanceof HTMLElement && section.offsetTop <= scrollPos) {
-          current = path.replace("#", "");
+        const section = document.querySelector(linkItem.path) as HTMLElement | null;
+        if (section && section.offsetTop <= scrollPos) {
+          current = linkItem.path.replace("#", "");
         }
       });
 
@@ -45,8 +44,8 @@ const Nav = () => {
     path: string
   ) => {
     e.preventDefault();
-    const section = document.querySelector(path);
-    if (section instanceof HTMLElement) {
+    const section = document.querySelector(path) as HTMLElement | null;
+    if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
     setIsOpen(false);
