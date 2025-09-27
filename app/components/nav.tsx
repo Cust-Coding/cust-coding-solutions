@@ -25,11 +25,11 @@ const Nav = () => {
       let current = "inicio";
 
       links.forEach(({ path }) => {
-        const section = document.querySelector(path);
-        if (section instanceof HTMLElement && section.offsetTop <= scrollPos) {
-          current = path.replace("#", "");
-        }
-      });
+      const section = document.querySelector(path);
+      if (section instanceof HTMLElement && section.offsetTop <= scrollPos) {
+        current = path.replace("#", "");
+      }
+    });
 
       setActiveSection(current);
     };
