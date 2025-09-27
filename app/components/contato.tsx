@@ -1,7 +1,7 @@
 "use client"; // necessário se estiver usando Next.js App Router
 import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import emailjs from "@emailjs/browser";
-import validator from "validator";
+import * as validator from "validator";
 import Image from "next/image";
 
 interface FormData {
