@@ -1,6 +1,27 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const nextConfig: NextConfig & { turbopack?: unknown } = {
+  // Turbopack config to mirror the custom webpack svg loader.
+  // This avoids the warning "Webpack is configured while Turbopack is not"
+  // when running Next with Turbopack-enabled environments.
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        // Ensure Turbopack emits JS so imports behave like components.
+        as: "*.js",
+      },
+    },
+  },
+
+   webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: /\.[jt]sx?$/,
+      use: ['@svgr/webpack'],
+    });
+    return config;
+  },
   // reactStrictMode: true, // mantém React Strict Mode
   // async headers() {
   //   const csp = [
