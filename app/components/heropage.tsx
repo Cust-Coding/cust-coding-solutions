@@ -5,6 +5,7 @@ export default function Heropage() {
   return (
     <section id="home" className="w-screen h-screen mt-12 md:mt-0 flex items-center justify-center">
   <div className="mai_heropage w-[90%] md:w-[70%] flex flex-col md:flex-row gap-4 items-center justify-center">
+   
 
     <div className="order-last md:order-none text-center md:text-left md:w-2/5 flex flex-col gap-4">
       <h3 className="text-2xl md:text-3xl font-bold">
